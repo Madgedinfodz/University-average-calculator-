@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة المعدل الجامعي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #5e35b1;
+            --primary-light: #7e57c2;
+            --secondary: #00acc1;
+            --success: #43a047;
+            --warning: #fb8c00;
+            --danger: #e53935;
+            --light: #f5f5f5;
+            --dark: #263238;
+            --text: #424242;
+            --border: #e0e0e0;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #fafafa;
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .app-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .app-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .app-header .icon {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2.5rem;
+            opacity: 0.2;
+        }
+
+        .app-body {
+            padding: 30px;
+        }
+
+        .grades-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+            margin-bottom: 30px;
+        }
+
+        .grades-table thead th {
+            background-color: var(--light);
+            color: var(--dark);
+            font-weight: 500;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .grades-table tbody tr {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .grades-table tbody tr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+
+        .grades-table td {
+            padding: 15px;
+            text-align: center;
+            vertical-align: middle;
+            position: relative;
+        }
+
+        .grades-table td:first-child {
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .grades-table td:last-child {
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: var(--light);
+            text-align: center;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.1);
+        }
+
+        .select-field {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+            padding-right: 35px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(94, 53, 177, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(94, 53, 177, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 172, 193, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background-color: #00bcd4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 172, 193, 0.3);
+        }
+
+        .delete-btn {
+            background-color: var(--danger);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+
+        .delete-btn:hover {
+            background-color: #c62828;
+            transform: scale(1.05);
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #f5f5f5 0%, #eeeeee 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+            border: 1px solid var(--border);
+            display: none;
+        }
+
+        .result-value {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 10px 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        .result-value::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        .result-message {
+            font-size: 1.2rem;
+            margin-top: 15px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .grade-scale {
+            width: 100%;
+            height: 10px;
+            background-color: var(--border);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .grade-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+            transition: width 0.6s ease;
+        }
+
+        .grade-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: #757575;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        /* New additions for update #2 */
+        .grade-letter {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .grade-A { color: #43a047; }
+        .grade-B { color: #7cb342; }
+        .grade-C { color: #fb8c00; }
+        .grade-D { color: #f4511e; }
+        .grade-F { color: #e53935; }
+        
+        .save-btn {
+            background-color: #8e24aa;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+            margin-right: 5px;
+        }
+        
+        .save-btn:hover {
+            background-color: #6a1b9a;
+            transform: scale(1.05);
+        }
+        
+        .subject-name-input {
+            margin-bottom: 5px;
+        }
+        
+        .validation-error {
+            border-color: var(--danger) !important;
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--dark);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .app-header {
+                padding: 20px;
+            }
+            
+            .app-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .app-header .icon {
+                display: none;
+            }
+            
+            .app-body {
+                padding: 20px;
+            }
+            
+            .grades-table thead th {
+                padding: 12px 8px;
+                font-size: 0.85rem;
+            }
+            
+            .grades-table td {
+                padding: 12px 8px;
+            }
+            
+            .input-field {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .result-value {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .app-header {
+                padding: 15px;
+            }
+            
+            .app-header h1 {
+                font-size: 1.3rem;
+            }
+            
+            .app-body {
+                padding: 15px;
+            }
+            
+            .grades-table thead {
+                display: none;
+            }
+            
+            .grades-table tbody tr {
+                display: block;
+                margin-bottom: 15px;
+            }
+            
+            .grades-table td {
+                display: block;
+                text-align: right;
+                padding: 10px 15px;
+                border-radius: 0 !important;
+            }
+            
+            .grades-table td::before {
+                content: attr(data-label);
+                float: left;
+                font-weight: 500;
+                color: var(--primary);
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <i class="fas fa-graduation-cap icon"></i>
+            <h1>حاسبة المعدل الجامعي</h1>
+            <p>احسب معدلك الفصلي بكل سهولة ودقة</p>
+        </div>
+        
+        <div class="app-body">
+            <table class="grades-table">
+                <thead>
+                    <tr>
+                        <th width="8%">#</th>
+                        <th width="20%">اسم المادة</th>
+                        <th width="12%">المعامل</th>
+                        <th width="15%">نوع التقييم</th>
+                        <th width="12%">الأعمال (40%)</th>
+                        <th width="12%">الامتحان (60%)</th>
+                        <th width="12%">المعدل</th>
+                        <th width="9%">إجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="gradesTable">
+                </tbody>
+            </table>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="addRow()">
+                    <i class="fas fa-plus"></i> إضافة مادة
+                </button>
+                <button class="btn btn-secondary" onclick="calculateAverage()">
+                    <i class="fas fa-calculator"></i> حساب المعدل
+                </button>
+            </div>
+            
+            <div class="result-card" id="resultCard">
+                <h3>المعدل الفصلي</h3>
+                <div class="result-value" id="resultValue">--.--</div>
+                <div id="gradeLetter" class="grade-letter"></div>
+                
+                <div class="grade-scale">
+                    <div class="grade-progress" id="gradeProgress"></div>
+                </div>
+                <div class="grade-markers">
+                    <span>10</span>
+                    <span>12</span>
+                    <span>14</span>
+                    <span>16</span>
+                    <span>20</span>
+                </div>
+                
+                <div class="result-message" id="resultMessage"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">تم الحفظ بنجاح</span>
+    </div>
+
+    <script>
+        let rowCount = 0;
+        let subjectsData = [];
+
+        // Add initial row when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            addRow();
+            loadFromLocalStorage();
+        });
+
+        function addRow(subjectData = null) {
+            rowCount++;
+            const table = document.getElementById('gradesTable');
+            const row = table.insertRow();
+            row.className = 'fade-in';
+            row.id = `row-${rowCount}`;
+            
+            const defaultData = {
+                name: '',
+                coefficient: 1,
+                type: 'both',
+                tp: '',
+                exam: '',
+                grade: '--.--'
+            };
+            
+            const data = subjectData || defaultData;
+            
+            row.innerHTML = `
+                <td data-label="الرقم">${rowCount}</td>
+                <td data-label="اسم المادة">
+                    <input type="text" class="input-field subject-name-input" id="name${rowCount}" 
+                           value="${data.name}" placeholder="اسم المادة">
+                </td>
+                <td data-label="المعامل">
+                    <input type="number" class="input-field" id="coefficient${rowCount}" 
+                           min="1" value="${data.coefficient}" required>
+                </td>
+                <td data-label="نوع التقييم">
+                    <select class="input-field select-field" id="type${rowCount}" 
+                            onchange="toggleInputs(${rowCount})">
+                        <option value="both" ${data.type === 'both' ? 'selected' : ''}>كلاهما</option>
+                        <option value="tp" ${data.type === 'tp' ? 'selected' : ''}>أعمال تطبيقية فقط</option>
+                        <option value="exam" ${data.type === 'exam' ? 'selected' : ''}>امتحان فقط</option>
+                    </select>
+                </td>
+                <td data-label="الأعمال (40%)">
+                    <input type="number" class="input-field" id="tp${rowCount}" 
+                           min="0" max="20" step="0.01" value="${data.tp}" 
+                           oninput="calculateGrade(${rowCount})" required>
+                </td>
+                <td data-label="الامتحان (60%)">
+                    <input type="number" class="input-field" id="exam${rowCount}" 
+                           min="0" max="20" step="0.01" value="${data.exam}" 
+                           oninput="calculateGrade(${rowCount})" required>
+                </td>
+                <td data-label="المعدل" id="grade${rowCount}">${data.grade}</td>
+                <td data-label="إجراءات">
+                    <button class="save-btn" onclick="saveData()">
+                        <i class="fas fa-save"></i>
+                    </button>
+                    <button class="delete-btn" onclick="deleteRow(this)">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            `;
+            
+            // Initialize inputs based on type
+            toggleInputs(rowCount);
+        }
+
+        function toggleInputs(row) {
+            const type = document.getElementById(`type${row}`).value;
+            const tpInput = document.getElementById(`tp${row}`);
+            const examInput = document.getElementById(`exam${row}`);
+
+            if (type === 'tp') {
+                tpInput.disabled = false;
+                examInput.disabled = true;
+                examInput.value = '';
+            } else if (type === 'exam') {
+                tpInput.disabled = true;
+                tpInput.value = '';
+                examInput.disabled = false;
+            } else {
+                tpInput.disabled = false;
+                examInput.disabled = false;
+            }
+
+            calculateGrade(row);
+        }
+
+        function calculateGrade(row) {
+            const type = document.getElementById(`type${row}`).value;
+            const tp = parseFloat(document.getElementById(`tp${row}`).value) || 0;
+            const exam = parseFloat(document.getElementById(`exam${row}`).value) || 0;
+            let grade = 0;
+
+            if (type === 'tp' && !isNaN(tp)) {
+                grade = tp;
+            } else if (type === 'exam' && !isNaN(exam)) {
+                grade = exam;
+            } else if (type === 'both' && (!isNaN(tp) || !isNaN(exam))) {
+                grade = (tp * 0.4) + (exam * 0.6);
+            }
+
+            const gradeCell = document.getElementById(`grade${row}`);
+            gradeCell.innerText = !isNaN(grade) ? grade.toFixed(2) : '--.--';
+            
+            // Add grade letter
+            updateGradeLetter(grade, gradeCell);
+            
+            // Validate inputs
+            validateInputs(row);
+        }
+        
+        function updateGradeLetter(grade, element) {
+            if (isNaN(grade)) return;
+            
+            let letter = '';
+            let letterClass = '';
+            
+            if (grade >= 18) {
+                letter = '(A+)';
+                letterClass = 'grade-A';
+            } else if (grade >= 16) {
+                letter = '(A)';
+                letterClass = 'grade-A';
+            } else if (grade >= 14) {
+                letter = '(B)';
+                letterClass = 'grade-B';
+            } else if (grade >= 12) {
+                letter = '(C)';
+                letterClass = 'grade-C';
+            } else if (grade >= 10) {
+                letter = '(D)';
+                letterClass = 'grade-D';
+            } else if (grade > 0) {
+                letter = '(F)';
+                letterClass = 'grade-F';
+            }
+            
+            // Remove previous letter if exists
+            const existingSpan = element.querySelector('.grade-letter');
+            if (existingSpan) {
+                existingSpan.remove();
+            }
+            
+            if (letter) {
+                const letterSpan = document.createElement('span');
+                letterSpan.className = `grade-letter ${letterClass}`;
+                letterSpan.textContent = letter;
+                element.appendChild(letterSpan);
+            }
+        }
+        
+        function validateInputs(row) {
+            const tpInput = document.getElementById(`tp${row}`);
+            const examInput = document.getElementById(`exam${row}`);
+            const type = document.getElementById(`type${row}`).value;
+            
+            if (type === 'tp' && (tpInput.value < 0 || tpInput.value > 20)) {
+                tpInput.classList.add('validation-error');
+                setTimeout(() => tpInput.classList.remove('validation-error'), 500);
+                tpInput.value = '';
+            }
+            
+            if (type === 'exam' && (examInput.value < 0 || examInput.value > 20)) {
+                examInput.classList.add('validation-error');
+                setTimeout(() => examInput.classList.remove('validation-error'), 500);
+                examInput.value = '';
+            }
+            
+            if (type === 'both' && (
+                (tpInput.value < 0 || tpInput.value > 20) || 
+                (examInput.value < 0 || examInput.value > 20)
+            )) {
+                if (tpInput.value < 0 || tpInput.value > 20) {
+                    tpInput.classList.add('validation-error');
+                    setTimeout(() => tpInput.classList.remove('validation-error'), 500);
+                    tpInput.value = '';
+                }
+                if (examInput.value < 0 || examInput.value > 20) {
+                    examInput.classList.add('validation-error');
+                    setTimeout(() => examInput.classList.remove('validation-error'), 500);
+                    examInput.value = '';
+                }
+            }
+        }
+
+        function deleteRow(button) {
+            const row = button.closest('tr');
+            row.classList.add('fade-out');
+            setTimeout(() => {
+                row.remove();
+                updateRowNumbers();
+                saveData();
+                // Hide result card if no rows left
+                if (document.getElementById('gradesTable').rows.length === 0) {
+                    document.getElementById('resultCard').style.display = 'none';
+                }
+            }, 300);
+        }
+
+        function updateRowNumbers() {
+            const rows = document.getElementById('gradesTable').rows;
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].cells[0].innerText = i + 1;
+            }
+            rowCount = rows.length;
+        }
+
+        function calculateAverage() {
+            let totalGrade = 0;
+            let totalCoefficient = 0;
+            let hasValidGrades = false;
+
+            for (let i = 1; i <= rowCount; i++) {
+                const row = document.getElementById(`row-${i}`);
+                if (!row) continue;
+                
+                const gradeCell = document.getElementById(`grade${i}`);
+                if (!gradeCell) continue;
+                
+                const grade = parseFloat(gradeCell.innerText);
+                const coefficient = parseFloat(document.getElementById(`coefficient${i}`).value) || 0;
+                
+                if (!isNaN(grade) && grade !== 0 && coefficient > 0) {
+                    totalGrade += grade * coefficient;
+                    totalCoefficient += coefficient;
+                    hasValidGrades = true;
+                }
+            }
+
+            if (!hasValidGrades) {
+                showToast("الرجاء إدخال بيانات صحيحة لمواد واحدة على الأقل");
+                return;
+            }
+
+            const average = totalCoefficient > 0 ? totalGrade / totalCoefficient : 0;
+            displayResult(average);
+            saveData();
+        }
+
+        function displayResult(average) {
+            const resultCard = document.getElementById('resultCard');
+            const resultValue = document.getElementById('resultValue');
+            const resultMessage = document.getElementById('resultMessage');
+            const gradeProgress = document.getElementById('gradeProgress');
+            const gradeLetter = document.getElementById('gradeLetter');
+            
+            // Calculate progress width (max 20)
+            const progressWidth = (average / 20) * 100;
+            gradeProgress.style.width = `${progressWidth}%`;
+            
+            // Format the result
+            resultValue.innerText = average.toFixed(2);
+            
+            // Set grade letter
+            if (average >= 18) {
+                gradeLetter.textContent = '(A+)';
+                gradeLetter.className = 'grade-letter grade-A';
+            } else if (average >= 16) {
+                gradeLetter.textContent = '(A)';
+                gradeLetter.className = 'grade-letter grade-A';
+            } else if (average >= 14) {
+                gradeLetter.textContent = '(B)';
+                gradeLetter.className = 'grade-letter grade-B';
+            } else if (average >= 12) {
+                gradeLetter.textContent = '(C)';
+                gradeLetter.className = 'grade-letter grade-C';
+            } else if (average >= 10) {
+                gradeLetter.textContent = '(D)';
+                gradeLetter.className = 'grade-letter grade-D';
+            } else if (average > 0) {
+                gradeLetter.textContent = '(F)';
+                gradeLetter.className = 'grade-letter grade-F';
+            } else {
+                gradeLetter.textContent = '';
+            }
+            
+            // Set message based on grade
+            if (average < 10) {
+                resultMessage.textContent = "يحتاج إلى تحسين!";
+                resultMessage.style.backgroundColor = "rgba(229, 57, 53, 0.1)";
+                resultMessage.style.color = "var(--danger)";
+            } else if (average >= 10 && average < 12) {
+                resultMessage.textContent = "مقبول، يمكنك التحسن أكثر!";
+                resultMessage.style.backgroundColor = "rgba(251, 140, 0, 0.1)";
+                resultMessage.style.color = "var(--warning)";
+            } else if (average >= 12 && average < 14) {
+                resultMessage.textContent = "جيد";
+                resultMessage.style.backgroundColor = "rgba(67, 160, 71, 0.1)";
+                resultMessage.style.color = "var(--success)";
+            } else if (average >= 14 && average < 16) {
+                resultMessage.textContent = "جيد جداً! استمر في التميز";
+                resultMessage.style.backgroundColor = "rgba(67, 160, 71, 0.1)";
+                resultMessage.style.color = "var(--success)";
+            } else if (average >= 16) {
+                resultMessage.textContent = "ممتاز! أنت مبدع";
+                resultMessage.style.backgroundColor = "rgba(0, 172, 193, 0.1)";
+                resultMessage.style.color = "var(--secondary)";
+            }
+            
+            // Show result card with animation
+            resultCard.style.display = 'block';
+            resultCard.classList.add('fade-in');
+            
+            // Add pulse animation to result value
+            resultValue.classList.add('pulse');
+            setTimeout(() => {
+                resultValue.classList.remove('pulse');
+            }, 1500);
+        }
+        
+        function saveData() {
+            subjectsData = [];
+            
+            for (let i = 1; i <= rowCount; i++) {
+                const row = document.getElementById(`row-${i}`);
+                if (!row) continue;
+                
+                const subject = {
+                    name: document.getElementById(`name${i}`).value,
+                    coefficient: parseFloat(document.getElementById(`coefficient${i}`).value) || 0,
+                    type: document.getElementById(`type${i}`).value,
+                    tp: document.getElementById(`tp${i}`).value,
+                    exam: document.getElementById(`exam${i}`).value,
+                    grade: document.getElementById(`grade${i}`).innerText
+                };
+                
+                subjectsData.push(subject);
+            }
+            
+            localStorage.setItem('gpaCalculatorData', JSON.stringify(subjectsData));
+            showToast("تم حفظ البيانات بنجاح");
+        }
+        
+        function loadFromLocalStorage() {
+            const savedData = localStorage.getItem('gpaCalculatorData');
+            if (savedData) {
+                try {
+                    subjectsData = JSON.parse(savedData);
+                    
+                    // Clear existing rows except the first one
+                    const table = document.getElementById('gradesTable');
+                    while (table.rows.length > 0) {
+                        table.deleteRow(0);
+                    }
+                    
+                    // Add rows from saved data
+                    rowCount = 0;
+                    subjectsData.forEach(subject => {
+                        addRow(subject);
+                    });
+                    
+                    // Calculate average if there are valid grades
+                    setTimeout(() => {
+                        const hasGrades = subjectsData.some(subject => 
+                            !isNaN(parseFloat(subject.grade)) && parseFloat(subject.grade) > 0
+                        );
+                        
+                        if (hasGrades) {
+                            calculateAverage();
+                        }
+                    }, 100);
+                    
+                } catch (e) {
+                    console.error("Error loading saved data:", e);
+                }
+            }
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
