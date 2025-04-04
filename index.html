@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #5e35b1;
-            --primary-light: #7e57c2;
-            --secondary: #00acc1;
+            --primary: #ffc107; /* تغيير من البنفسجي إلى الأصفر */
+            --primary-light: #ffd54f; /* لون أصفر فاتح */
+            --secondary: #212121; /* تغيير من الأزرق إلى الأسود */
             --success: #43a047;
             --warning: #fb8c00;
             --danger: #e53935;
@@ -30,9 +30,9 @@
 
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #fafafa;
             color: var(--text);
             line-height: 1.6;
+            background-color: #fafafa;
             padding: 20px;
         }
 
@@ -46,8 +46,8 @@
         }
 
         .app-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light)); /* استخدام الأصفر */
+            color: #212121; /* تغيير لون النص إلى داكن */
             padding: 25px 30px;
             text-align: center;
             position: relative;
@@ -136,8 +136,8 @@
 
         .input-field:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.1);
+            border-color: var(--primary); /* تغيير إلى الأصفر */
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1); /* ظل أصفر */
         }
 
         .select-field {
@@ -172,27 +172,27 @@
         }
 
         .btn-primary {
-            background-color: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(94, 53, 177, 0.2);
+            background-color: var(--primary); /* زر أصفر */
+            color: #212121; /* نص أسود */
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2); /* ظل أصفر */
         }
 
         .btn-primary:hover {
             background-color: var(--primary-light);
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(94, 53, 177, 0.3);
+            box-shadow: 0 6px 16px rgba(255, 193, 7, 0.3); /* ظل أصفر */
         }
 
         .btn-secondary {
-            background-color: var(--secondary);
+            background-color: var(--secondary); /* زر أسود */
             color: white;
-            box-shadow: 0 4px 12px rgba(0, 172, 193, 0.2);
+            box-shadow: 0 4px 12px rgba(33, 33, 33, 0.2); /* ظل أسود */
         }
 
         .btn-secondary:hover {
-            background-color: #00bcd4;
+            background-color: #424242;
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 172, 193, 0.3);
+            box-shadow: 0 6px 16px rgba(33, 33, 33, 0.3); /* ظل أسود */
         }
 
         .delete-btn {
@@ -226,7 +226,7 @@
             font-size: 3rem;
             font-weight: 700;
             margin: 10px 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); /* من الأصفر إلى الأسود */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             position: relative;
@@ -240,7 +240,7 @@
             right: 0;
             width: 100%;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: linear-gradient(90deg, var(--primary), var(--secondary)); /* من الأصفر إلى الأسود */
             border-radius: 3px;
         }
 
@@ -264,12 +264,12 @@
 
         .grade-progress {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: linear-gradient(90deg, var(--primary), var(--secondary)); /* من الأصفر إلى الأسود */
             border-radius: 5px;
             transition: width 0.6s ease;
         }
 
-        .grade-markers {
+        .grade-marks {
             display: flex;
             justify-content: space-between;
             margin-top: 5px;
@@ -296,7 +296,7 @@
             100% { transform: scale(1); }
         }
 
-        /* New additions for update #2 */
+        /* إضافات جديدة للتحديث رقم 2 */
         .grade-letter {
             font-weight: bold;
             margin-right: 5px;
@@ -362,7 +362,7 @@
             opacity: 1;
         }
         
-        /* Responsive styles */
+        /*أنماط الاستجابة*/
         @media (max-width: 768px) {
             .app-header {
                 padding: 20px;
@@ -452,11 +452,12 @@
     </style>
 </head>
 <body>
+    <!-- باقي الكود يبقى كما هو بدون تغيير -->
     <div class="app-container">
         <div class="app-header">
             <i class="fas fa-graduation-cap icon"></i>
             <h1>حاسبة المعدل الجامعي</h1>
-            <p>احسب معدلك الفصلي بكل سهولة ودقة</p>
+            <p>احسب معدل فصلك بكل سهولة ودقة</p>
         </div>
         
         <div class="app-body">
@@ -470,7 +471,7 @@
                         <th width="12%">الأعمال (40%)</th>
                         <th width="12%">الامتحان (60%)</th>
                         <th width="12%">المعدل</th>
-                        <th width="9%">إجراءات</th>
+                        <th width="9%">الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody id="gradesTable">
@@ -494,12 +495,12 @@
                 <div class="grade-scale">
                     <div class="grade-progress" id="gradeProgress"></div>
                 </div>
-                <div class="grade-markers">
+                <div class="grade-marks">
                     <span>10</span>
-                    <span>12</span>
+                    12
                     <span>14</span>
                     <span>16</span>
-                    <span>20</span>
+                    20
                 </div>
                 
                 <div class="result-message" id="resultMessage"></div>
@@ -512,11 +513,12 @@
         <span id="toastMessage">تم الحفظ بنجاح</span>
     </div>
 
+    <!-- باقي الكود البرمجي يبقى كما هو بدون تغيير -->
     <script>
         let rowCount = 0;
         let subjectsData = [];
 
-        // Add initial row when page loads
+        // أضف الصف الأولي عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', function() {
             addRow();
             loadFromLocalStorage();
@@ -543,15 +545,15 @@
             row.innerHTML = `
                 <td data-label="الرقم">${rowCount}</td>
                 <td data-label="اسم المادة">
-                    <input type="text" class="input-field subject-name-input" id="name${rowCount}" 
+                    <input type="text" class="input-field subject-name-input" id="name${rowCount}"
                            value="${data.name}" placeholder="اسم المادة">
                 </td>
                 <td data-label="المعامل">
-                    <input type="number" class="input-field" id="coefficient${rowCount}" 
+                    <input type="number" class="input-field" id="coefficient${rowCount}"
                            min="1" value="${data.coefficient}" required>
                 </td>
                 <td data-label="نوع التقييم">
-                    <select class="input-field select-field" id="type${rowCount}" 
+                    <select class="input-field select-field" id="type${rowCount}"
                             onchange="toggleInputs(${rowCount})">
                         <option value="both" ${data.type === 'both' ? 'selected' : ''}>كلاهما</option>
                         <option value="tp" ${data.type === 'tp' ? 'selected' : ''}>أعمال تطبيقية فقط</option>
@@ -559,13 +561,13 @@
                     </select>
                 </td>
                 <td data-label="الأعمال (40%)">
-                    <input type="number" class="input-field" id="tp${rowCount}" 
-                           min="0" max="20" step="0.01" value="${data.tp}" 
+                    <input type="number" class="input-field" id="tp${rowCount}"
+                           min="0" max="20" step="0.01" value="${data.tp}"
                            oninput="calculateGrade(${rowCount})" required>
                 </td>
                 <td data-label="الامتحان (60%)">
-                    <input type="number" class="input-field" id="exam${rowCount}" 
-                           min="0" max="20" step="0.01" value="${data.exam}" 
+                    <input type="number" class="input-field" id="exam${rowCount}"
+                           min="0" max="20" step="0.01" value="${data.exam}"
                            oninput="calculateGrade(${rowCount})" required>
                 </td>
                 <td data-label="المعدل" id="grade${rowCount}">${data.grade}</td>
@@ -579,7 +581,7 @@
                 </td>
             `;
             
-            // Initialize inputs based on type
+            // تهيئة المدخلات بناءً على النوع
             toggleInputs(rowCount);
         }
 
@@ -621,10 +623,10 @@
             const gradeCell = document.getElementById(`grade${row}`);
             gradeCell.innerText = !isNaN(grade) ? grade.toFixed(2) : '--.--';
             
-            // Add grade letter
+            // أضف حرف الدرجة
             updateGradeLetter(grade, gradeCell);
             
-            // Validate inputs
+            // التحقق من صحة المدخلات
             validateInputs(row);
         }
         
@@ -654,10 +656,10 @@
                 letterClass = 'grade-F';
             }
             
-            // Remove previous letter if exists
-            const existingSpan = element.querySelector('.grade-letter');
-            if (existingSpan) {
-                existingSpan.remove();
+            // قم بإزالة الحرف السابق إذا كان موجودًا
+            const existing = element.querySelector('.grade-letter');
+            if (existing) {
+                existing.remove();
             }
             
             if (letter) {
@@ -686,7 +688,7 @@
             }
             
             if (type === 'both' && (
-                (tpInput.value < 0 || tpInput.value > 20) || 
+                (tpInput.value < 0 || tpInput.value > 20) ||
                 (examInput.value < 0 || examInput.value > 20)
             )) {
                 if (tpInput.value < 0 || tpInput.value > 20) {
@@ -704,12 +706,12 @@
 
         function deleteRow(button) {
             const row = button.closest('tr');
-            row.classList.add('fade-out');
+            row.classList.add('fade-in');
             setTimeout(() => {
                 row.remove();
                 updateRowNumbers();
                 saveData();
-                // Hide result card if no rows left
+                // إخفاء بطاقة النتيجة إذا لم يتبق أي صفوف
                 if (document.getElementById('gradesTable').rows.length === 0) {
                     document.getElementById('resultCard').style.display = 'none';
                 }
@@ -752,25 +754,25 @@
             }
 
             const average = totalCoefficient > 0 ? totalGrade / totalCoefficient : 0;
-            displayResult(average);
+            showResult(average);
             saveData();
         }
 
-        function displayResult(average) {
+        function showResult(average) {
             const resultCard = document.getElementById('resultCard');
             const resultValue = document.getElementById('resultValue');
             const resultMessage = document.getElementById('resultMessage');
             const gradeProgress = document.getElementById('gradeProgress');
             const gradeLetter = document.getElementById('gradeLetter');
             
-            // Calculate progress width (max 20)
+            // حساب عرض التقدم (الحد الأقصى 20)
             const progressWidth = (average / 20) * 100;
             gradeProgress.style.width = `${progressWidth}%`;
             
-            // Format the result
+            //تنسيق النتيجة
             resultValue.innerText = average.toFixed(2);
             
-            // Set grade letter
+            // تعيين حرف الدرجة
             if (average >= 18) {
                 gradeLetter.textContent = '(A+)';
                 gradeLetter.className = 'grade-letter grade-A';
@@ -793,7 +795,7 @@
                 gradeLetter.textContent = '';
             }
             
-            // Set message based on grade
+            // تعيين الرسالة بناءً على الدرجة
             if (average < 10) {
                 resultMessage.textContent = "يحتاج إلى تحسين!";
                 resultMessage.style.backgroundColor = "rgba(229, 57, 53, 0.1)";
@@ -807,7 +809,7 @@
                 resultMessage.style.backgroundColor = "rgba(67, 160, 71, 0.1)";
                 resultMessage.style.color = "var(--success)";
             } else if (average >= 14 && average < 16) {
-                resultMessage.textContent = "جيد جداً! استمر في التميز";
+                resultMessage.textContent = "جيد جداً! استمر في العمل الجيد";
                 resultMessage.style.backgroundColor = "rgba(67, 160, 71, 0.1)";
                 resultMessage.style.color = "var(--success)";
             } else if (average >= 16) {
@@ -816,11 +818,11 @@
                 resultMessage.style.color = "var(--secondary)";
             }
             
-            // Show result card with animation
+            // عرض بطاقة النتيجة مع الرسوم المتحركة
             resultCard.style.display = 'block';
             resultCard.classList.add('fade-in');
             
-            // Add pulse animation to result value
+            // إضافة رسوم متحركة نبضية إلى قيمة النتيجة
             resultValue.classList.add('pulse');
             setTimeout(() => {
                 resultValue.classList.remove('pulse');
@@ -856,21 +858,21 @@
                 try {
                     subjectsData = JSON.parse(savedData);
                     
-                    // Clear existing rows except the first one
+                    // مسح الصفوف الموجودة باستثناء الصف الأول
                     const table = document.getElementById('gradesTable');
                     while (table.rows.length > 0) {
                         table.deleteRow(0);
                     }
                     
-                    // Add rows from saved data
+                    // إضافة صفوف من البيانات المحفوظة
                     rowCount = 0;
                     subjectsData.forEach(subject => {
                         addRow(subject);
                     });
                     
-                    // Calculate average if there are valid grades
+                    // احسب المتوسط إذا كانت هناك درجات صالحة
                     setTimeout(() => {
-                        const hasGrades = subjectsData.some(subject => 
+                        const hasGrades = subjectsData.some(subject =>
                             !isNaN(parseFloat(subject.grade)) && parseFloat(subject.grade) > 0
                         );
                         
@@ -880,7 +882,7 @@
                     }, 100);
                     
                 } catch (e) {
-                    console.error("Error loading saved data:", e);
+                    console.error("خطأ في تحميل البيانات المحفوظة:", e);
                 }
             }
         }
