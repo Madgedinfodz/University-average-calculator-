@@ -1,903 +1,974 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة المعدل الجامعي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #ffc107; /* تغيير من البنفسجي إلى الأصفر */
-            --primary-light: #ffd54f; /* لون أصفر فاتح */
-            --secondary: #212121; /* تغيير من الأزرق إلى الأسود */
-            --success: #43a047;
-            --warning: #fb8c00;
-            --danger: #e53935;
-            --light: #f5f5f5;
-            --dark: #263238;
-            --text: #424242;
-            --border: #e0e0e0;
-            --shadow: 0 4px 12px rgba(0,0,0,0.08);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة المحاضرات الجامعية - كلية الاقتصاد</title>
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --light-gray: #f8f9fa;
+      --dark-gray: #7f8c8d;
+      --success-color: #2ecc71;
+      --warning-color: #f39c12;
+    }
+    
+    body {
+      font-family: 'Tajawal', Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+      margin: 0;
+      padding: 0;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      transform: rotate(30deg);
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      position: relative;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    h1::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: white;
+      margin: 15px auto 0;
+      border-radius: 2px;
+    }
 
-        body {
-            font-family: 'Tajawal', sans-serif;
-            color: var(--text);
-            line-height: 1.6;
-            background-color: #fafafa;
-            padding: 20px;
-        }
+    .header-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-top: 10px;
+    }
 
-        .app-container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
+    h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: var(--secondary-color);
+      position: relative;
+      padding-bottom: 10px;
+    }
 
-        .app-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light)); /* استخدام الأصفر */
-            color: #212121; /* تغيير لون النص إلى داكن */
-            padding: 25px 30px;
-            text-align: center;
-            position: relative;
-        }
+    h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--primary-color);
+      border-radius: 3px;
+    }
 
-        .app-header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
+    /* أنماط التصنيفات */
+    .categories-section {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .category-title {
+      font-size: 1.5rem;
+      color: var(--secondary-color);
+      position: relative;
+      padding-right: 15px;
+    }
+    
+    .category-title::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 5px;
+      height: 25px;
+      background: var(--primary-color);
+      border-radius: 3px;
+    }
+    
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .category-card {
+      background: var(--light-gray);
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.3s;
+      border-left: 4px solid var(--primary-color);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+    
+    .card-title {
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: var(--secondary-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .card-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .card-item {
+      padding: 10px 0;
+      border-bottom: 1px dashed #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .card-item:last-child {
+      border-bottom: none;
+    }
+    
+    .course-duration {
+      color: var(--dark-gray);
+      font-size: 0.85rem;
+      background: rgba(0,0,0,0.05);
+      padding: 3px 8px;
+      border-radius: 12px;
+    }
 
-        .app-header p {
-            opacity: 0.9;
-            font-size: 0.95rem;
-        }
+    .lectures-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+    
+    .lecture {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: 1px solid rgba(0,0,0,0.05);
+      position: relative;
+    }
+    
+    .lecture:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    }
+    
+    .lecture-thumbnail {
+      position: relative;
+      padding-top: 56.25%;
+      overflow: hidden;
+      background: #000;
+    }
 
-        .app-header .icon {
-            position: absolute;
-            left: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2.5rem;
-            opacity: 0.2;
-        }
+    .lecture-thumbnail::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(transparent 60%, rgba(0,0,0,0.5));
+      z-index: 1;
+    }
 
-        .app-body {
-            padding: 30px;
-        }
+    .lecture-thumbnail iframe,
+    .lecture-thumbnail video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      transition: transform 0.3s;
+    }
 
-        .grades-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 12px;
-            margin-bottom: 30px;
-        }
+    .lecture:hover .lecture-thumbnail iframe,
+    .lecture:hover .lecture-thumbnail video {
+      transform: scale(1.03);
+    }
+    
+    .lecture-info {
+      padding: 25px;
+      text-align: right;
+    }
+    
+    .lecture-title {
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin: 0 0 15px;
+      color: var(--secondary-color);
+      line-height: 1.4;
+    }
+    
+    .lecture-meta {
+      color: var(--dark-gray);
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .grades-table thead th {
-            background-color: var(--light);
-            color: var(--dark);
-            font-weight: 500;
-            padding: 15px;
-            text-align: center;
-            border-bottom: 2px solid var(--border);
-        }
+    .lecture-meta svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--dark-gray);
+    }
+    
+    .lecture-description {
+      color: #555;
+      margin: 15px 0;
+      line-height: 1.7;
+    }
+    
+    .lecture-date {
+      color: var(--dark-gray);
+      font-size: 0.85rem;
+      text-align: left;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
 
-        .grades-table tbody tr {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: var(--transition);
-        }
+    .lecture-date svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--dark-gray);
+    }
 
-        .grades-table tbody tr:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-        }
+    .lecture-faculty {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      z-index: 2;
+    }
+    
+    .faculty-filter {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 30px 0;
+    }
+    
+    .faculty-btn {
+      background: white;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .faculty-btn:hover, .faculty-btn.active {
+      background: var(--primary-color);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .search-bar {
+      margin: 30px auto;
+      max-width: 600px;
+      position: relative;
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 15px 25px;
+      border: 2px solid #e0e0e0;
+      border-radius: 50px;
+      font-size: 1rem;
+      transition: all 0.3s;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .search-bar input:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+    }
 
-        .grades-table td {
-            padding: 15px;
-            text-align: center;
-            vertical-align: middle;
-            position: relative;
-        }
+    .search-bar::before {
+      content: "🔍";
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      opacity: 0.5;
+    }
 
-        .grades-table td:first-child {
-            border-top-right-radius: 12px;
-            border-bottom-right-radius: 12px;
-        }
+    .search-bar input {
+      padding-right: 15px;
+      padding-left: 50px;
+    }
 
-        .grades-table td:last-child {
-            border-top-left-radius: 12px;
-            border-bottom-left-radius: 12px;
-        }
+    /* نموذج رفع المحاضرة */
+    .upload-section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin-bottom: 40px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
 
-        .input-field {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 0.95rem;
-            transition: var(--transition);
-            background-color: var(--light);
-            text-align: center;
-        }
+    .upload-section h2 {
+      margin-top: 0;
+    }
 
-        .input-field:focus {
-            outline: none;
-            border-color: var(--primary); /* تغيير إلى الأصفر */
-            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1); /* ظل أصفر */
-        }
+    #uploadForm {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-        .select-field {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 16px;
-            padding-right: 35px;
-        }
+    form input, form select, form textarea {
+      padding: 12px 15px;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      width: 100%;
+      transition: all 0.3s;
+      background: var(--light-gray);
+    }
 
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 30px 0;
-        }
+    form input:focus, form select:focus, form textarea:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
 
-        .btn {
-            padding: 14px 28px;
-            border-radius: 10px;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 500;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border: none;
-        }
+    form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
 
-        .btn-primary {
-            background-color: var(--primary); /* زر أصفر */
-            color: #212121; /* نص أسود */
-            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2); /* ظل أصفر */
-        }
+    form button {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+      margin-top: 10px;
+      box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    }
 
-        .btn-primary:hover {
-            background-color: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(255, 193, 7, 0.3); /* ظل أصفر */
-        }
+    form button:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+    }
 
-        .btn-secondary {
-            background-color: var(--secondary); /* زر أسود */
-            color: white;
-            box-shadow: 0 4px 12px rgba(33, 33, 33, 0.2); /* ظل أسود */
-        }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
 
-        .btn-secondary:hover {
-            background-color: #424242;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(33, 33, 33, 0.3); /* ظل أسود */
-        }
+    .form-group label {
+      font-weight: bold;
+      color: var(--secondary-color);
+      font-size: 0.95rem;
+    }
 
-        .delete-btn {
-            background-color: var(--danger);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: var(--transition);
-        }
+    .video-options {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin: 10px 0;
+    }
 
-        .delete-btn:hover {
-            background-color: #c62828;
-            transform: scale(1.05);
-        }
+    .video-option {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
 
-        .result-card {
-            background: linear-gradient(135deg, #f5f5f5 0%, #eeeeee 100%);
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 30px;
-            text-align: center;
-            border: 1px solid var(--border);
-            display: none;
-        }
+    .video-option label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+      color: var(--secondary-color);
+    }
 
-        .result-value {
-            font-size: 3rem;
-            font-weight: 700;
-            margin: 10px 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary)); /* من الأصفر إلى الأسود */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
-            display: inline-block;
-        }
+    .video-option svg {
+      width: 20px;
+      height: 20px;
+    }
 
-        .result-value::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            right: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary)); /* من الأصفر إلى الأسود */
-            border-radius: 3px;
-        }
+    /* رسائل التنبيه */
+    .alert {
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      display: none;
+      transition: all 0.3s;
+    }
 
-        .result-message {
-            font-size: 1.2rem;
-            margin-top: 15px;
-            padding: 10px 20px;
-            border-radius: 30px;
-            display: inline-block;
-            font-weight: 500;
-        }
+    .alert-success {
+      background: rgba(46, 204, 113, 0.2);
+      color: #27ae60;
+      border-left: 4px solid #2ecc71;
+    }
 
-        .grade-scale {
-            width: 100%;
-            height: 10px;
-            background-color: var(--border);
-            border-radius: 5px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
+    .alert-error {
+      background: rgba(231, 76, 60, 0.2);
+      color: #c0392b;
+      border-left: 4px solid #e74c3c;
+    }
 
-        .grade-progress {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary)); /* من الأصفر إلى الأسود */
-            border-radius: 5px;
-            transition: width 0.6s ease;
-        }
+    /* رسالة عدم وجود محاضرات */
+    .no-lectures {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--dark-gray);
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
 
-        .grade-marks {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-            font-size: 0.85rem;
-            color: #757575;
-        }
+    .no-lectures svg {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
 
-        .fade-in {
-            animation: fadeIn 0.5s ease forwards;
-        }
+    .no-lectures p {
+      font-size: 1.1rem;
+      margin: 0;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* تأثيرات للكود السري */
+    #accessCode {
+      background: repeating-linear-gradient(
+        45deg,
+        #f8f9fa,
+        #f8f9fa 10px,
+        #e9ecef 10px,
+        #e9ecef 20px
+      );
+      font-family: monospace;
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
 
-        .pulse {
-            animation: pulse 1.5s infinite;
-        }
+    /* قسم التعليم عن بعد */
+    .online-learning {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 30px;
+      border-radius: 15px;
+      margin: 30px 0;
+      text-align: center;
+    }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-            100% { transform: scale(1); }
-        }
+    .online-learning p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #555;
+      max-width: 800px;
+      margin: 0 auto;
+    }
 
-        /* إضافات جديدة للتحديث رقم 2 */
-        .grade-letter {
-            font-weight: bold;
-            margin-right: 5px;
-        }
-        
-        .grade-A { color: #43a047; }
-        .grade-B { color: #7cb342; }
-        .grade-C { color: #fb8c00; }
-        .grade-D { color: #f4511e; }
-        .grade-F { color: #e53935; }
-        
-        .save-btn {
-            background-color: #8e24aa;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: var(--transition);
-            margin-right: 5px;
-        }
-        
-        .save-btn:hover {
-            background-color: #6a1b9a;
-            transform: scale(1.05);
-        }
-        
-        .subject-name-input {
-            margin-bottom: 5px;
-        }
-        
-        .validation-error {
-            border-color: var(--danger) !important;
-            animation: shake 0.5s;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
-        }
-        
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--dark);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .toast.show {
-            opacity: 1;
-        }
-        
-        /*أنماط الاستجابة*/
-        @media (max-width: 768px) {
-            .app-header {
-                padding: 20px;
-            }
-            
-            .app-header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .app-header .icon {
-                display: none;
-            }
-            
-            .app-body {
-                padding: 20px;
-            }
-            
-            .grades-table thead th {
-                padding: 12px 8px;
-                font-size: 0.85rem;
-            }
-            
-            .grades-table td {
-                padding: 12px 8px;
-            }
-            
-            .input-field {
-                padding: 10px 12px;
-                font-size: 0.85rem;
-            }
-            
-            .btn {
-                padding: 12px 20px;
-                font-size: 0.9rem;
-            }
-            
-            .result-value {
-                font-size: 2.5rem;
-            }
-        }
+    @media (max-width: 768px) {
+      .lectures-container, .category-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
 
-        @media (max-width: 576px) {
-            .app-header {
-                padding: 15px;
-            }
-            
-            .app-header h1 {
-                font-size: 1.3rem;
-            }
-            
-            .app-body {
-                padding: 15px;
-            }
-            
-            .grades-table thead {
-                display: none;
-            }
-            
-            .grades-table tbody tr {
-                display: block;
-                margin-bottom: 15px;
-            }
-            
-            .grades-table td {
-                display: block;
-                text-align: right;
-                padding: 10px 15px;
-                border-radius: 0 !important;
-            }
-            
-            .grades-table td::before {
-                content: attr(data-label);
-                float: left;
-                font-weight: 500;
-                color: var(--primary);
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-        }
-    </style>
+      .upload-section {
+        padding: 20px;
+      }
+    }
+
+    /* تأثيرات عند التحميل */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .lecture, .category-card {
+      animation: fadeIn 0.5s ease-out forwards;
+      opacity: 0;
+    }
+
+    .lecture:nth-child(1), .category-card:nth-child(1) { animation-delay: 0.1s; }
+    .lecture:nth-child(2), .category-card:nth-child(2) { animation-delay: 0.2s; }
+    .lecture:nth-child(3), .category-card:nth-child(3) { animation-delay: 0.3s; }
+    .lecture:nth-child(4), .category-card:nth-child(4) { animation-delay: 0.4s; }
+    .lecture:nth-child(5), .category-card:nth-child(5) { animation-delay: 0.5s; }
+    .lecture:nth-child(6), .category-card:nth-child(6) { animation-delay: 0.6s; }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- باقي الكود يبقى كما هو بدون تغيير -->
-    <div class="app-container">
-        <div class="app-header">
-            <i class="fas fa-graduation-cap icon"></i>
-            <h1>حاسبة المعدل الجامعي</h1>
-            <p>احسب معدل فصلك بكل سهولة ودقة</p>
+  <header>
+    <div class="container">
+      <h1>📚 منصة المحاضرات الجامعية</h1>
+      <p class="header-subtitle">كلية الاقتصاد والعلوم القانونية - جامعة الجزائر</p>
+    </div>
+  </header>
+  
+  <main class="container">
+    
+    <!-- قسم التصنيفات -->
+    <section class="categories-section">
+      <div class="category-header">
+        <h2 class="category-title"><i class="fas fa-layer-group"></i> التصنيفات الأكاديمية</h2>
+      </div>
+      
+      <div class="category-grid">
+        <!-- قسم الاقتصاد -->
+        <div class="category-card">
+          <h3 class="card-title"><i class="fas fa-chart-line"></i> الاقتصاد</h3>
+          <ul class="card-items">
+            <li class="card-item">
+              <span>الاقتصاد الجزئي</span>
+              <span class="course-duration">4 محاضرات</span>
+            </li>
+            <li class="card-item">
+              <span>الاقتصاد الكلي</span>
+              <span class="course-duration">3 محاضرات</span>
+            </li>
+            <li class="card-item">
+              <span>الاقتصاد القياسي</span>
+              <span class="course-duration">2 محاضرات</span>
+            </li>
+          </ul>
         </div>
         
-        <div class="app-body">
-            <table class="grades-table">
-                <thead>
-                    <tr>
-                        <th width="8%">#</th>
-                        <th width="20%">اسم المادة</th>
-                        <th width="12%">المعامل</th>
-                        <th width="15%">نوع التقييم</th>
-                        <th width="12%">الأعمال (40%)</th>
-                        <th width="12%">الامتحان (60%)</th>
-                        <th width="12%">المعدل</th>
-                        <th width="9%">الإجراءات</th>
-                    </tr>
-                </thead>
-                <tbody id="gradesTable">
-                </tbody>
-            </table>
-            
-            <div class="action-buttons">
-                <button class="btn btn-primary" onclick="addRow()">
-                    <i class="fas fa-plus"></i> إضافة مادة
-                </button>
-                <button class="btn btn-secondary" onclick="calculateAverage()">
-                    <i class="fas fa-calculator"></i> حساب المعدل
-                </button>
-            </div>
-            
-            <div class="result-card" id="resultCard">
-                <h3>المعدل الفصلي</h3>
-                <div class="result-value" id="resultValue">--.--</div>
-                <div id="gradeLetter" class="grade-letter"></div>
-                
-                <div class="grade-scale">
-                    <div class="grade-progress" id="gradeProgress"></div>
-                </div>
-                <div class="grade-marks">
-                    <span>10</span>
-                    12
-                    <span>14</span>
-                    <span>16</span>
-                    20
-                </div>
-                
-                <div class="result-message" id="resultMessage"></div>
-            </div>
+        <!-- قسم القانون -->
+        <div class="category-card">
+          <h3 class="card-title"><i class="fas fa-gavel"></i> القانون</h3>
+          <ul class="card-items">
+            <li class="card-item">
+              <span>القانون المدني</span>
+              <span class="course-duration">7 محاضرات</span>
+            </li>
+            <li class="card-item">
+              <span>القانون التجاري</span>
+              <span class="course-duration">5 محاضرات</span>
+            </li>
+          </ul>
         </div>
+        
+        <!-- قسم المحاسبة -->
+        <div class="category-card">
+          <h3 class="card-title"><i class="fas fa-calculator"></i> المحاسبة</h3>
+          <ul class="card-items">
+            <li class="card-item">
+              <span>المحاسبة المالية</span>
+              <span class="course-duration">10:00 دقيقة</span>
+            </li>
+            <li class="card-item">
+              <span>محاسبة التكاليف</span>
+              <span class="course-duration">20:31 دقيقة</span>
+            </li>
+            <li class="card-item">
+              <span>المحاسبة الضريبية</span>
+              <span class="course-duration">60 دقيقة</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- قسم التعليم عن بعد -->
+    <section class="online-learning">
+      <h2><i class="fas fa-laptop-house"></i> التعليم عن بعد</h2>
+      <p>
+        في ظل التطورات التكنولوجية، نقدم لكم منصة متكاملة للتعلم عن بعد تحتوي على محاضرات مسجلة من أساتذة متخصصين، مع إمكانية التفاعل والنقاش عبر المنصة. نوفر بيئة تعليمية مرنة تناسب جميع الطلاب.
+      </p>
+    </section>
+
+    <!-- رفع محاضرة -->
+    <section class="upload-section">
+      <h2><i class="fas fa-cloud-upload-alt" style="margin-left: 10px;"></i> رفع محاضرة جديدة</h2>
+      <form id="uploadForm">
+        <div id="alertBox"></div>
+        
+        <div class="form-group">
+          <label for="lectureTitle">عنوان المحاضرة</label>
+          <input type="text" placeholder="مثال: محاضرة في الاقتصاد الجزئي - الجزء الأول" id="lectureTitle" required>
+        </div>
+
+        <div class="form-group">
+          <label for="lectureProfessor">اسم المحاضر</label>
+          <input type="text" placeholder="مثال: د. أحمد محمد" id="lectureProfessor" required>
+        </div>
+
+        <div class="form-group">
+          <label for="lectureFaculty">القسم</label>
+          <select id="lectureFaculty" required>
+            <option value="">-- اختر القسم --</option>
+            <option value="microeconomie">الاقتصاد الجزئي</option>
+            <option value="macroeconomie">الاقتصاد الكلي</option>
+            <option value="droit">العلوم القانونية</option>
+            <option value="accounting">المحاسبة المالية</option>
+            <option value="statistics">الإحصاء</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="lectureDate">تاريخ المحاضرة</label>
+          <input type="date" id="lectureDate" required>
+        </div>
+
+        <div class="form-group">
+          <label for="lectureDescription">وصف المحاضرة</label>
+          <textarea placeholder="وصف مختصر لمحتوى المحاضرة..." id="lectureDescription"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>طريقة إدراج الفيديو</label>
+          <div class="video-options">
+            <div class="video-option">
+              <label><i class="fab fa-youtube"></i> رابط يوتيوب</label>
+              <input type="text" placeholder="https://www.youtube.com/watch?v=..." id="youtubeLink">
+            </div>
+            <div class="video-option">
+              <label><i class="fas fa-video"></i> رفع فيديو</label>
+              <input type="file" accept="video/*" id="localVideo">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="accessCode">الكود السري</label>
+          <input type="text" placeholder="أدخل الكود السري المخصص للمحاضرين" id="accessCode" required>
+        </div>
+
+        <button type="submit">
+          <i class="fas fa-paper-plane" style="margin-left: 8px;"></i> نشر المحاضرة
+        </button>
+      </form>
+    </section>
+
+    <!-- بحث وتصنيف -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="ابحث عن محاضرة، محاضر، أو وصف...">
     </div>
     
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMessage">تم الحفظ بنجاح</span>
+    <div class="faculty-filter">
+      <button class="faculty-btn active" onclick="filterLectures('all')">
+        <i class="fas fa-list" style="margin-left: 8px;"></i> الكل
+      </button>
+      <button class="faculty-btn" onclick="filterLectures('microeconomie')">
+        <i class="fas fa-chart-pie" style="margin-left: 8px;"></i> الاقتصاد الجزئي
+      </button>
+      <button class="faculty-btn" onclick="filterLectures('macroeconomie')">
+        <i class="fas fa-chart-bar" style="margin-left: 8px;"></i> الاقتصاد الكلي
+      </button>
+      <button class="faculty-btn" onclick="filterLectures('droit')">
+        <i class="fas fa-gavel" style="margin-left: 8px;"></i> القانون
+      </button>
+      <button class="faculty-btn" onclick="filterLectures('accounting')">
+        <i class="fas fa-calculator" style="margin-left: 8px;"></i> المحاسبة
+      </button>
+      <button class="faculty-btn" onclick="filterLectures('statistics')">
+        <i class="fas fa-chart-line" style="margin-left: 8px;"></i> الإحصاء
+      </button>
     </div>
+    
+    <div class="lectures-container" id="lecturesContainer"></div>
+  </main>
 
-    <!-- باقي الكود البرمجي يبقى كما هو بدون تغيير -->
-    <script>
-        let rowCount = 0;
-        let subjectsData = [];
+  <script>
+    const lectures = [
+      {
+        id: 1,
+        title: "مدخل إلى الاقتصاد الجزئي - الجزء الأول",
+        professor: "د. أحمد بن يوسف",
+        faculty: "microeconomie",
+        videoId: "dQw4w9WgXcQ",
+        date: "2023-10-15",
+        description: "مقدمة في الاقتصاد الجزئي وتطبيقاته العملية في سوق العمل والاستهلاك. تتضمن المحاضرة تحليل سلوك المستهلك ونظرية المنفعة."
+      },
+      {
+        id: 2,
+        title: "النظرية الكلاسيكية في الاقتصاد الكلي",
+        professor: "أ. فاطمة زروقي",
+        faculty: "macroeconomie",
+        videoId: "kJQP7kiw5Fk",
+        date: "2023-10-12",
+        description: "دراسة النظرية الكلاسيكية وتحليل التوازن العام في الاقتصاد الكلي مع تطبيقات عملية على الاقتصاد الجزائري."
+      },
+      {
+        id: 3,
+        title: "مدخل إلى القانون المدني",
+        professor: "د. محمد السيد",
+        faculty: "droit",
+        videoId: "JGwWNGJdvx8",
+        date: "2023-10-10",
+        description: "مقدمة في القانون المدني، مصادر القانون، النظرية العامة للالتزامات والعقود."
+      },
+      {
+        id: 4,
+        title: "أساسيات المحاسبة المالية",
+        professor: "د. خالد عمران",
+        faculty: "accounting",
+        videoId: "9bZkp7q19f0",
+        date: "2023-10-08",
+        description: "تعريف بالمحاسبة المالية، الدورة المحاسبية، تحليل العمليات المالية وتسجيلها في الدفاتر."
+      },
+      {
+        id: 5,
+        title: "التحليل الإحصائي للبيانات الاقتصادية",
+        professor: "د. سميرة قاسم",
+        faculty: "statistics",
+        videoId: "OPF8Lq8WXqk",
+        date: "2023-10-05",
+        description: "كيفية استخدام الأساليب الإحصائية في تحليل البيانات الاقتصادية واتخاذ القرارات بناءً على النتائج."
+      }
+    ];
 
-        // أضف الصف الأولي عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', function() {
-            addRow();
-            loadFromLocalStorage();
-        });
+    document.addEventListener('DOMContentLoaded', function() {
+      renderLectures(lectures);
 
-        function addRow(subjectData = null) {
-            rowCount++;
-            const table = document.getElementById('gradesTable');
-            const row = table.insertRow();
-            row.className = 'fade-in';
-            row.id = `row-${rowCount}`;
-            
-            const defaultData = {
-                name: '',
-                coefficient: 1,
-                type: 'both',
-                tp: '',
-                exam: '',
-                grade: '--.--'
-            };
-            
-            const data = subjectData || defaultData;
-            
-            row.innerHTML = `
-                <td data-label="الرقم">${rowCount}</td>
-                <td data-label="اسم المادة">
-                    <input type="text" class="input-field subject-name-input" id="name${rowCount}"
-                           value="${data.name}" placeholder="اسم المادة">
-                </td>
-                <td data-label="المعامل">
-                    <input type="number" class="input-field" id="coefficient${rowCount}"
-                           min="1" value="${data.coefficient}" required>
-                </td>
-                <td data-label="نوع التقييم">
-                    <select class="input-field select-field" id="type${rowCount}"
-                            onchange="toggleInputs(${rowCount})">
-                        <option value="both" ${data.type === 'both' ? 'selected' : ''}>كلاهما</option>
-                        <option value="tp" ${data.type === 'tp' ? 'selected' : ''}>أعمال تطبيقية فقط</option>
-                        <option value="exam" ${data.type === 'exam' ? 'selected' : ''}>امتحان فقط</option>
-                    </select>
-                </td>
-                <td data-label="الأعمال (40%)">
-                    <input type="number" class="input-field" id="tp${rowCount}"
-                           min="0" max="20" step="0.01" value="${data.tp}"
-                           oninput="calculateGrade(${rowCount})" required>
-                </td>
-                <td data-label="الامتحان (60%)">
-                    <input type="number" class="input-field" id="exam${rowCount}"
-                           min="0" max="20" step="0.01" value="${data.exam}"
-                           oninput="calculateGrade(${rowCount})" required>
-                </td>
-                <td data-label="المعدل" id="grade${rowCount}">${data.grade}</td>
-                <td data-label="إجراءات">
-                    <button class="save-btn" onclick="saveData()">
-                        <i class="fas fa-save"></i>
-                    </button>
-                    <button class="delete-btn" onclick="deleteRow(this)">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </td>
-            `;
-            
-            // تهيئة المدخلات بناءً على النوع
-            toggleInputs(rowCount);
+      document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const filteredLectures = lectures.filter(lecture => 
+          lecture.title.toLowerCase().includes(searchTerm) ||
+          lecture.professor.toLowerCase().includes(searchTerm) ||
+          lecture.description.toLowerCase().includes(searchTerm)
+        );
+        renderLectures(filteredLectures);
+      });
+    });
+
+    function filterLectures(faculty) {
+      document.querySelectorAll('.faculty-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      if (faculty === 'all') {
+        renderLectures(lectures);
+        return;
+      }
+      
+      const filteredLectures = lectures.filter(lecture => lecture.faculty === faculty);
+      renderLectures(filteredLectures);
+    }
+
+    function renderLectures(lecturesToShow) {
+      const container = document.getElementById('lecturesContainer');
+      const facultyNames = {
+        'microeconomie': 'الاقتصاد الجزئي',
+        'macroeconomie': 'الاقتصاد الكلي',
+        'droit': 'القانون',
+        'accounting': 'المحاسبة',
+        'statistics': 'الإحصاء'
+      };
+
+      if (lecturesToShow.length === 0) {
+        container.innerHTML = `
+          <div class="no-lectures">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <p>لا توجد محاضرات متاحة حالياً</p>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = lecturesToShow.map(lecture => `
+        <div class="lecture">
+          <div class="lecture-faculty">${facultyNames[lecture.faculty]}</div>
+          <div class="lecture-thumbnail">
+            ${lecture.videoId.startsWith('blob:') ? 
+              `<video controls><source src="${lecture.videoId}" type="video/mp4"></video>` :
+              `<iframe src="https://www.youtube.com/embed/${lecture.videoId}" frameborder="0"
+               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`}
+          </div>
+          <div class="lecture-info">
+            <h3 class="lecture-title">${lecture.title}</h3>
+            <div class="lecture-meta">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              المحاضر: ${lecture.professor}
+            </div>
+            <p class="lecture-description">${lecture.description}</p>
+            <div class="lecture-date">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              ${formatDate(lecture.date)}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('ar-EG', options);
+    }
+
+    function showAlert(message, type) {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.innerHTML = `
+        <div class="alert alert-${type}">
+          ${type === 'success' ? '✅' : '❌'} ${message}
+        </div>
+      `;
+      const alertElement = alertBox.querySelector('.alert');
+      alertElement.style.display = 'block';
+      
+      setTimeout(() => {
+        alertElement.style.opacity = '0';
+        setTimeout(() => {
+          alertElement.style.display = 'none';
+        }, 300);
+      }, 5000);
+    }
+
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const title = document.getElementById('lectureTitle').value.trim();
+      const professor = document.getElementById('lectureProfessor').value.trim();
+      const faculty = document.getElementById('lectureFaculty').value;
+      const date = document.getElementById('lectureDate').value;
+      const description = document.getElementById('lectureDescription').value.trim();
+      const youtubeLink = document.getElementById('youtubeLink').value.trim();
+      const localVideo = document.getElementById('localVideo').files[0];
+      const accessCode = document.getElementById('accessCode').value.trim();
+
+      if (accessCode !== "2005MADÉCONOMIE2025") {
+        showAlert("الكود السري غير صحيح. لا يمكن نشر المحاضرة.", "error");
+        return;
+      }
+
+      let videoId = '';
+      if (youtubeLink) {
+        const match = youtubeLink.match(/(?:youtu\.be\/|v=)([^&]+)/);
+        if (match && match[1]) {
+          videoId = match[1];
+        } else {
+          showAlert("رابط يوتيوب غير صالح. يرجى التأكد من الرابط.", "error");
+          return;
         }
+      } else if (localVideo) {
+        const url = URL.createObjectURL(localVideo);
+        videoId = url;
+      } else {
+        showAlert("يرجى إدخال رابط يوتيوب أو رفع فيديو", "error");
+        return;
+      }
 
-        function toggleInputs(row) {
-            const type = document.getElementById(`type${row}`).value;
-            const tpInput = document.getElementById(`tp${row}`);
-            const examInput = document.getElementById(`exam${row}`);
+      const newLecture = {
+        id: lectures.length + 1,
+        title,
+        professor,
+        faculty,
+        videoId,
+        date,
+        description
+      };
 
-            if (type === 'tp') {
-                tpInput.disabled = false;
-                examInput.disabled = true;
-                examInput.value = '';
-            } else if (type === 'exam') {
-                tpInput.disabled = true;
-                tpInput.value = '';
-                examInput.disabled = false;
-            } else {
-                tpInput.disabled = false;
-                examInput.disabled = false;
-            }
-
-            calculateGrade(row);
+      lectures.unshift(newLecture);
+      renderLectures(lectures);
+      this.reset();
+      showAlert("تم رفع المحاضرة بنجاح!", "success");
+      
+      // Scroll to the newly added lecture
+      setTimeout(() => {
+        const firstLecture = document.querySelector('.lecture');
+        if (firstLecture) {
+          firstLecture.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-
-        function calculateGrade(row) {
-            const type = document.getElementById(`type${row}`).value;
-            const tp = parseFloat(document.getElementById(`tp${row}`).value) || 0;
-            const exam = parseFloat(document.getElementById(`exam${row}`).value) || 0;
-            let grade = 0;
-
-            if (type === 'tp' && !isNaN(tp)) {
-                grade = tp;
-            } else if (type === 'exam' && !isNaN(exam)) {
-                grade = exam;
-            } else if (type === 'both' && (!isNaN(tp) || !isNaN(exam))) {
-                grade = (tp * 0.4) + (exam * 0.6);
-            }
-
-            const gradeCell = document.getElementById(`grade${row}`);
-            gradeCell.innerText = !isNaN(grade) ? grade.toFixed(2) : '--.--';
-            
-            // أضف حرف الدرجة
-            updateGradeLetter(grade, gradeCell);
-            
-            // التحقق من صحة المدخلات
-            validateInputs(row);
-        }
-        
-        function updateGradeLetter(grade, element) {
-            if (isNaN(grade)) return;
-            
-            let letter = '';
-            let letterClass = '';
-            
-            if (grade >= 18) {
-                letter = '(A+)';
-                letterClass = 'grade-A';
-            } else if (grade >= 16) {
-                letter = '(A)';
-                letterClass = 'grade-A';
-            } else if (grade >= 14) {
-                letter = '(B)';
-                letterClass = 'grade-B';
-            } else if (grade >= 12) {
-                letter = '(C)';
-                letterClass = 'grade-C';
-            } else if (grade >= 10) {
-                letter = '(D)';
-                letterClass = 'grade-D';
-            } else if (grade > 0) {
-                letter = '(F)';
-                letterClass = 'grade-F';
-            }
-            
-            // قم بإزالة الحرف السابق إذا كان موجودًا
-            const existing = element.querySelector('.grade-letter');
-            if (existing) {
-                existing.remove();
-            }
-            
-            if (letter) {
-                const letterSpan = document.createElement('span');
-                letterSpan.className = `grade-letter ${letterClass}`;
-                letterSpan.textContent = letter;
-                element.appendChild(letterSpan);
-            }
-        }
-        
-        function validateInputs(row) {
-            const tpInput = document.getElementById(`tp${row}`);
-            const examInput = document.getElementById(`exam${row}`);
-            const type = document.getElementById(`type${row}`).value;
-            
-            if (type === 'tp' && (tpInput.value < 0 || tpInput.value > 20)) {
-                tpInput.classList.add('validation-error');
-                setTimeout(() => tpInput.classList.remove('validation-error'), 500);
-                tpInput.value = '';
-            }
-            
-            if (type === 'exam' && (examInput.value < 0 || examInput.value > 20)) {
-                examInput.classList.add('validation-error');
-                setTimeout(() => examInput.classList.remove('validation-error'), 500);
-                examInput.value = '';
-            }
-            
-            if (type === 'both' && (
-                (tpInput.value < 0 || tpInput.value > 20) ||
-                (examInput.value < 0 || examInput.value > 20)
-            )) {
-                if (tpInput.value < 0 || tpInput.value > 20) {
-                    tpInput.classList.add('validation-error');
-                    setTimeout(() => tpInput.classList.remove('validation-error'), 500);
-                    tpInput.value = '';
-                }
-                if (examInput.value < 0 || examInput.value > 20) {
-                    examInput.classList.add('validation-error');
-                    setTimeout(() => examInput.classList.remove('validation-error'), 500);
-                    examInput.value = '';
-                }
-            }
-        }
-
-        function deleteRow(button) {
-            const row = button.closest('tr');
-            row.classList.add('fade-in');
-            setTimeout(() => {
-                row.remove();
-                updateRowNumbers();
-                saveData();
-                // إخفاء بطاقة النتيجة إذا لم يتبق أي صفوف
-                if (document.getElementById('gradesTable').rows.length === 0) {
-                    document.getElementById('resultCard').style.display = 'none';
-                }
-            }, 300);
-        }
-
-        function updateRowNumbers() {
-            const rows = document.getElementById('gradesTable').rows;
-            for (let i = 0; i < rows.length; i++) {
-                rows[i].cells[0].innerText = i + 1;
-            }
-            rowCount = rows.length;
-        }
-
-        function calculateAverage() {
-            let totalGrade = 0;
-            let totalCoefficient = 0;
-            let hasValidGrades = false;
-
-            for (let i = 1; i <= rowCount; i++) {
-                const row = document.getElementById(`row-${i}`);
-                if (!row) continue;
-                
-                const gradeCell = document.getElementById(`grade${i}`);
-                if (!gradeCell) continue;
-                
-                const grade = parseFloat(gradeCell.innerText);
-                const coefficient = parseFloat(document.getElementById(`coefficient${i}`).value) || 0;
-                
-                if (!isNaN(grade) && grade !== 0 && coefficient > 0) {
-                    totalGrade += grade * coefficient;
-                    totalCoefficient += coefficient;
-                    hasValidGrades = true;
-                }
-            }
-
-            if (!hasValidGrades) {
-                showToast("الرجاء إدخال بيانات صحيحة لمواد واحدة على الأقل");
-                return;
-            }
-
-            const average = totalCoefficient > 0 ? totalGrade / totalCoefficient : 0;
-            showResult(average);
-            saveData();
-        }
-
-        function showResult(average) {
-            const resultCard = document.getElementById('resultCard');
-            const resultValue = document.getElementById('resultValue');
-            const resultMessage = document.getElementById('resultMessage');
-            const gradeProgress = document.getElementById('gradeProgress');
-            const gradeLetter = document.getElementById('gradeLetter');
-            
-            // حساب عرض التقدم (الحد الأقصى 20)
-            const progressWidth = (average / 20) * 100;
-            gradeProgress.style.width = `${progressWidth}%`;
-            
-            //تنسيق النتيجة
-            resultValue.innerText = average.toFixed(2);
-            
-            // تعيين حرف الدرجة
-            if (average >= 18) {
-                gradeLetter.textContent = '(A+)';
-                gradeLetter.className = 'grade-letter grade-A';
-            } else if (average >= 16) {
-                gradeLetter.textContent = '(A)';
-                gradeLetter.className = 'grade-letter grade-A';
-            } else if (average >= 14) {
-                gradeLetter.textContent = '(B)';
-                gradeLetter.className = 'grade-letter grade-B';
-            } else if (average >= 12) {
-                gradeLetter.textContent = '(C)';
-                gradeLetter.className = 'grade-letter grade-C';
-            } else if (average >= 10) {
-                gradeLetter.textContent = '(D)';
-                gradeLetter.className = 'grade-letter grade-D';
-            } else if (average > 0) {
-                gradeLetter.textContent = '(F)';
-                gradeLetter.className = 'grade-letter grade-F';
-            } else {
-                gradeLetter.textContent = '';
-            }
-            
-            // تعيين الرسالة بناءً على الدرجة
-            if (average < 10) {
-                resultMessage.textContent = "يحتاج إلى تحسين!";
-                resultMessage.style.backgroundColor = "rgba(229, 57, 53, 0.1)";
-                resultMessage.style.color = "var(--danger)";
-            } else if (average >= 10 && average < 12) {
-                resultMessage.textContent = "مقبول، يمكنك التحسن أكثر!";
-                resultMessage.style.backgroundColor = "rgba(251, 140, 0, 0.1)";
-                resultMessage.style.color = "var(--warning)";
-            } else if (average >= 12 && average < 14) {
-                resultMessage.textContent = "جيد";
-                resultMessage.style.backgroundColor = "rgba(67, 160, 71, 0.1)";
-                resultMessage.style.color = "var(--success)";
-            } else if (average >= 14 && average < 16) {
-                resultMessage.textContent = "جيد جداً! استمر في العمل الجيد";
-                resultMessage.style.backgroundColor = "rgba(67, 160, 71, 0.1)";
-                resultMessage.style.color = "var(--success)";
-            } else if (average >= 16) {
-                resultMessage.textContent = "ممتاز! أنت مبدع";
-                resultMessage.style.backgroundColor = "rgba(0, 172, 193, 0.1)";
-                resultMessage.style.color = "var(--secondary)";
-            }
-            
-            // عرض بطاقة النتيجة مع الرسوم المتحركة
-            resultCard.style.display = 'block';
-            resultCard.classList.add('fade-in');
-            
-            // إضافة رسوم متحركة نبضية إلى قيمة النتيجة
-            resultValue.classList.add('pulse');
-            setTimeout(() => {
-                resultValue.classList.remove('pulse');
-            }, 1500);
-        }
-        
-        function saveData() {
-            subjectsData = [];
-            
-            for (let i = 1; i <= rowCount; i++) {
-                const row = document.getElementById(`row-${i}`);
-                if (!row) continue;
-                
-                const subject = {
-                    name: document.getElementById(`name${i}`).value,
-                    coefficient: parseFloat(document.getElementById(`coefficient${i}`).value) || 0,
-                    type: document.getElementById(`type${i}`).value,
-                    tp: document.getElementById(`tp${i}`).value,
-                    exam: document.getElementById(`exam${i}`).value,
-                    grade: document.getElementById(`grade${i}`).innerText
-                };
-                
-                subjectsData.push(subject);
-            }
-            
-            localStorage.setItem('gpaCalculatorData', JSON.stringify(subjectsData));
-            showToast("تم حفظ البيانات بنجاح");
-        }
-        
-        function loadFromLocalStorage() {
-            const savedData = localStorage.getItem('gpaCalculatorData');
-            if (savedData) {
-                try {
-                    subjectsData = JSON.parse(savedData);
-                    
-                    // مسح الصفوف الموجودة باستثناء الصف الأول
-                    const table = document.getElementById('gradesTable');
-                    while (table.rows.length > 0) {
-                        table.deleteRow(0);
-                    }
-                    
-                    // إضافة صفوف من البيانات المحفوظة
-                    rowCount = 0;
-                    subjectsData.forEach(subject => {
-                        addRow(subject);
-                    });
-                    
-                    // احسب المتوسط إذا كانت هناك درجات صالحة
-                    setTimeout(() => {
-                        const hasGrades = subjectsData.some(subject =>
-                            !isNaN(parseFloat(subject.grade)) && parseFloat(subject.grade) > 0
-                        );
-                        
-                        if (hasGrades) {
-                            calculateAverage();
-                        }
-                    }, 100);
-                    
-                } catch (e) {
-                    console.error("خطأ في تحميل البيانات المحفوظة:", e);
-                }
-            }
-        }
-        
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            
-            toastMessage.textContent = message;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-    </script>
+      }, 100);
+    });
+  </script>
 </body>
 </html>
